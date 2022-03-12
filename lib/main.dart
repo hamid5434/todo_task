@@ -15,15 +15,28 @@ void main() async {
   runApp(const MyApp());
 }
 
+const Color primeryColor = Color(0xff794cff);
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final primaryTextColor = Color(0xff1d2830);
+    final secondaryTextColor = Color(0xffafbed0);
     return MaterialApp(
       title: 'Todo',
       debugShowCheckedModeBanner: false,
-      theme: theme(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.light(
+          primary: primeryColor,
+          primaryVariant:const Color(0xff5c0aff),
+          background: const Color(0xfff3f5f8),
+          onSurface: primaryTextColor,
+          onBackground: primaryTextColor,
+          secondary: primeryColor,
+          onSecondary: Colors.white,
+        ),
+      ),
       home: const HomeScreen(),
     );
   }

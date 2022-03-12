@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('To Do List'),
         centerTitle: true,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.of(context).push(
@@ -29,18 +30,34 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ValueListenableBuilder<Box<Task>>(
-        builder: (context,box,child){
-          return ListView.builder(
-              itemCount: box.values.length,
-              itemBuilder: (context, index) {
-                final Task task = box.values.toList()[index];
-                //print('**********${task.name}***********');
-                return Container(
-                  child: Text(task.name),
-                );
-              });
-        }, valueListenable: box.listenable(),
+      body: Column(
+        children: [
+          Container(
+            height: 102,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.primary,
+                ]
+              )
+            ),
+          ),
+          Expanded(
+            child: ValueListenableBuilder<Box<Task>>(
+              builder: (context,box,child){
+                return ListView.builder(
+                    itemCount: box.values.length,
+                    itemBuilder: (context, index) {
+                      final Task task = box.values.toList()[index];
+                      //print('**********${task.name}***********');
+                      return Container(
+                        child: Text(task.name),
+                      );
+                    });
+              }, valueListenable: box.listenable(),
+            ),
+          ),
+        ],
       ),
     );
   }
