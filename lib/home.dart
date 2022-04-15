@@ -53,10 +53,16 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           'To Do List',
-                          style: Theme.of(context).textTheme.headline3,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                         ),
                         Icon(
                           CupertinoIcons.share,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ],
                     ),
@@ -66,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Container(
                     height: 38,
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     width: double.infinity,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(19),
@@ -78,11 +84,11 @@ class HomeScreen extends StatelessWidget {
                             blurRadius: 20,
                           )
                         ]),
-                    child: TextField(
+                    child: const TextField(
                       decoration: InputDecoration(
                         prefixIcon: Icon(CupertinoIcons.search),
                         label: Text('Search Tasks...'),
-                        border: InputBorder.none,
+
                       ),
                     ),
                   ),
@@ -96,9 +102,12 @@ class HomeScreen extends StatelessWidget {
                       itemCount: box.values.length,
                       itemBuilder: (context, index) {
                         final Task task = box.values.toList()[index];
-                        //print('**********${task.name}***********');
+                        print('**********${task.name}***********');
                         return Container(
-                          child: Text(task.name),
+                          child: Text(
+                            task.name,
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
                         );
                       });
                 },
