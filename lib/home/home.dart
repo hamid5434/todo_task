@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_task/data.dart';
+import 'package:todo_task/home/edit_task_screen.dart';
 import 'package:todo_task/home/widgets/task_item.dart';
 import 'package:todo_task/main.dart';
 
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => EditTaskScreen(),
+              builder: (context) => EditTaskScreen(task: Task(),),
             ),
           );
         },
@@ -172,38 +173,3 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class EditTaskScreen extends StatelessWidget {
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Task'),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          final task = Task();
-          task.name = _controller.text;
-          task.priority = Priority.low;
-          if (task.isInBox) {
-            task.save();
-          } else {
-            final Box<Task> box = Hive.box<Task>(taskBoxName);
-            box.add(task);
-          }
-          Navigator.of(context).pop();
-        },
-        label: Text('Save Change'),
-      ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _controller,
-            decoration: InputDecoration(label: Text('Add Task Or Today...')),
-          ),
-        ],
-      ),
-    );
-  }
-}

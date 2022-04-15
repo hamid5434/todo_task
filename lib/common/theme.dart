@@ -6,6 +6,10 @@ const Color primaryVariant = Color(0xff5c0aff);
 const Color primaryTextColor = Color(0xff1d2830);
 const Color secondaryTextColor = Color(0xffafbed0);
 
+const Color normalColor = Color(0xff0924d2);
+const Color lowColor = Color(0xffaecef8);
+const Color highColor = Color(0xffe71a49);
+
 ThemeData theme() {
   const String DEFAULTFONTFAMILY = 'Avenir';
 
