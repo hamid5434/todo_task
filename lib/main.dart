@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Todo',
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }

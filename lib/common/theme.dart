@@ -28,6 +28,7 @@ ThemeData theme() {
         color: secondaryTextColor,
       ),
       border: InputBorder.none,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
     ),
     iconTheme: IconThemeData(
       color: primaryTextColor,
