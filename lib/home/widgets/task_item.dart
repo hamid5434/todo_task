@@ -38,6 +38,9 @@ class _TaskItemState extends State<TaskItem> {
           ),
         );
       },
+      onLongPress: () {
+        widget.taskEntity.delete();
+      },
       child: Container(
         height: TaskItem.height,
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
