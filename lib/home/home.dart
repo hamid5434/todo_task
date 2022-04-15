@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_task/data.dart';
+import 'package:todo_task/home/widgets/task_item.dart';
 import 'package:todo_task/main.dart';
+
+import '../common/theme.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final box = Hive.box<Task>(taskBoxName);
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -42,7 +46,7 @@ class HomeScreen extends StatelessWidget {
               ])),
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Padding(
@@ -67,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Container(
@@ -88,7 +92,6 @@ class HomeScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: Icon(CupertinoIcons.search),
                         label: Text('Search Tasks...'),
-
                       ),
                     ),
                   ),
@@ -99,16 +102,64 @@ class HomeScreen extends StatelessWidget {
               child: ValueListenableBuilder<Box<Task>>(
                 builder: (context, box, child) {
                   return ListView.builder(
-                      itemCount: box.values.length,
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 12, bottom: 80),
+                      itemCount: box.values.length + 1,
                       itemBuilder: (context, index) {
-                        final Task task = box.values.toList()[index];
-                        print('**********${task.name}***********');
-                        return Container(
-                          child: Text(
-                            task.name,
-                            style: Theme.of(context).textTheme.headline4,
-                          ),
-                        );
+                        if (index == 0) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Today',
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Container(
+                                    width: 60,
+                                    height: 3,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor,
+                                      borderRadius: BorderRadius.circular(1.5),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              MaterialButton(
+                                color: const Color(0xffeaeff5),
+                                textColor: secondaryTextColor,
+                                elevation: 0,
+                                onPressed: () {},
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Text('Delete All'),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Icon(
+                                      CupertinoIcons.delete_simple,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          final Task task = box.values.toList()[index - 1];
+                          //print('**********${task.name}***********');
+                          return TaskItem(
+                            taskEntity: task,
+                          );
+                        }
                       });
                 },
                 valueListenable: box.listenable(),

@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 const Color primeryColor = Color(0xff794cff);
 const Color primaryVariant = Color(0xff5c0aff);
 
+const Color primaryTextColor = Color(0xff1d2830);
+const Color secondaryTextColor = Color(0xffafbed0);
+
 ThemeData theme() {
   const String DEFAULTFONTFAMILY = 'Avenir';
 
-  final primaryTextColor = Color(0xff1d2830);
-  final secondaryTextColor = Color(0xffafbed0);
   return ThemeData(
     colorScheme: ColorScheme.light(
       primary: primeryColor,

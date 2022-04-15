@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_task/data.dart';
-import 'package:todo_task/home.dart';
+import 'package:todo_task/home/home.dart';
 
 import 'common/theme.dart';
 
