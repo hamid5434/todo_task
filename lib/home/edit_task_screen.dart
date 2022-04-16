@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_task/common/theme.dart';
 import 'package:todo_task/data/data.dart';
+import 'package:todo_task/data/repo/repository.dart';
 import 'package:todo_task/home/widgets/priority_checkbox.dart';
 import 'package:todo_task/main.dart';
 
@@ -33,12 +35,10 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         onPressed: () {
           widget.task.name = _controller.text;
           widget.task.priority = widget.task.priority;
-          if (widget.task.isInBox) {
-            widget.task.save();
-          } else {
-            final Box<Task> box = Hive.box<Task>(taskBoxName);
-            box.add(widget.task);
-          }
+
+          final repository =
+              Provider.of<Repository<Task>>(context, listen: false);
+          repository.createOrUpdate(widget.task);
           Navigator.of(context).pop();
         },
         label: Row(

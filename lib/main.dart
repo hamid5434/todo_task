@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_task/data/repo/repository.dart';
 import 'package:todo_task/data/source/hive_task_source.dart';
 import 'package:todo_task/home/home.dart';
@@ -11,7 +12,6 @@ import 'data/data.dart';
 const taskBoxName = 'tasks';
 
 void main() async {
-
   //final Repository<Task> repository = Repository(HiveTaskDataSource(Hive.box(taskBoxName)));
 
   await Hive.initFlutter();
@@ -21,7 +21,16 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(statusBarColor: primaryVariant),
   );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => Repository<Task>(
+        HiveTaskDataSource(
+          Hive.box(taskBoxName),
+        ),
+      ),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

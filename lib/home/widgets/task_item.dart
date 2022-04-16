@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_task/common/theme.dart';
 import 'package:todo_task/data/data.dart';
+import 'package:todo_task/data/repo/repository.dart';
 import 'package:todo_task/home/edit_task_screen.dart';
 import 'package:todo_task/home/widgets/my_check_box.dart';
 
@@ -39,7 +41,10 @@ class _TaskItemState extends State<TaskItem> {
         );
       },
       onLongPress: () {
-        widget.taskEntity.delete();
+        //widget.taskEntity.delete();
+        final repository =
+            Provider.of<Repository<Task>>(context, listen: false);
+        repository.delete(widget.taskEntity);
       },
       child: Container(
         height: TaskItem.height,

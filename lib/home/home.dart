@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_task/data/data.dart';
+import 'package:todo_task/data/repo/repository.dart';
 import 'package:todo_task/home/edit_task_screen.dart';
 import 'package:todo_task/home/widgets/empty_state.dart';
 import 'package:todo_task/home/widgets/task_item.dart';
+import 'package:todo_task/home/widgets/task_list.dart';
 import 'package:todo_task/main.dart';
 
 import '../common/theme.dart';
@@ -17,7 +20,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box<Task>(taskBoxName);
+    //final box = Hive.box<Task>(taskBoxName);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -110,96 +113,31 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ValueListenableBuilder<String>(
-                valueListenable: searchKeyWordNotifier,
-                builder: (context, value, child) {
-                  return ValueListenableBuilder<Box<Task>>(
-                    builder: (context, box, child) {
-                      final items;
-                      if (controller.text.isEmpty) {
-                        items = box.values.toList();
-                        print('#########${items.length}#########');
-                      } else {
-                        items = box.values
-                            .where(
-                              (element) => element.name.contains(controller.text),
-                        )
-                            .toList();
-                        print('*************${items.length}#########');
-                      }
-                      if (items.isNotEmpty) {
-                        return ListView.builder(
-                            padding: const EdgeInsets.only(
-                                left: 12, right: 12, top: 12, bottom: 80),
-                            itemCount: items.length + 1,
-                            itemBuilder: (context, index) {
-                              if (index == 0) {
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Today',
-                                          style:
-                                          Theme.of(context).textTheme.headline6,
-                                        ),
-                                        const SizedBox(
-                                          height: 4,
-                                        ),
-                                        Container(
-                                          width: 60,
-                                          height: 3,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context).primaryColor,
-                                            borderRadius:
-                                            BorderRadius.circular(1.5),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    MaterialButton(
-                                      color: const Color(0xffeaeff5),
-                                      textColor: secondaryTextColor,
-                                      elevation: 0,
-                                      onPressed: () {
-                                        box.clear();
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text('Delete All'),
-                                          SizedBox(
-                                            width: 4,
-                                          ),
-                                          Icon(
-                                            CupertinoIcons.delete_simple,
-                                            size: 20,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              } else {
-                                final Task task = items[index - 1];
-                                //print('**********${task.name}***********');
-                                return TaskItem(
-                                  taskEntity: task,
-                                );
-                              }
-                            });
-                      } else {
-                        return EmptyState();
-                      }
-                    },
-                    valueListenable: box.listenable(),
-                  );
-                },
-              )
-            ),
+                child: ValueListenableBuilder<String>(
+              valueListenable: searchKeyWordNotifier,
+              builder: (context, value, child) {
+                return Consumer<Repository<Task>>(
+                  builder: (context, repository, child) {
+                    return FutureBuilder<List<Task>>(
+                      future: repository.getAll(searchKeyWord: controller.text),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data!.isNotEmpty) {
+                            return TaskList(
+                              items: snapshot.data!,
+                            );
+                          } else {
+                            return const EmptyState();
+                          }
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    );
+                  },
+                );
+              },
+            )),
           ],
         ),
       ),
