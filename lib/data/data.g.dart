@@ -17,20 +17,23 @@ class TaskAdapter extends TypeAdapter<Task> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Task()
-      ..name = fields[0] as String
-      ..isCompleted = fields[1] as bool
-      ..priority = fields[2] as Priority;
+      ..id = fields[0] as int
+      ..name = fields[1] as String
+      ..isCompleted = fields[2] as bool
+      ..priority = fields[3] as Priority;
   }
 
   @override
   void write(BinaryWriter writer, Task obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.isCompleted)
+      ..write(obj.name)
       ..writeByte(2)
+      ..write(obj.isCompleted)
+      ..writeByte(3)
       ..write(obj.priority);
   }
 
@@ -54,9 +57,9 @@ class PriorityAdapter extends TypeAdapter<Priority> {
     switch (reader.readByte()) {
       case 0:
         return Priority.low;
-      case 1:
-        return Priority.normal;
       case 2:
+        return Priority.normal;
+      case 1:
         return Priority.high;
       default:
         return Priority.low;
@@ -70,10 +73,10 @@ class PriorityAdapter extends TypeAdapter<Priority> {
         writer.writeByte(0);
         break;
       case Priority.normal:
-        writer.writeByte(1);
+        writer.writeByte(2);
         break;
       case Priority.high:
-        writer.writeByte(2);
+        writer.writeByte(1);
         break;
     }
   }

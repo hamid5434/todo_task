@@ -12,7 +12,7 @@ class HiveTaskDataSource implements DataSource<Task> {
     if (data.isInBox) {
       data.save();
     } else {
-      int id = await box.add(data);
+      data.id = await box.add(data);
     }
     return data;
   }
@@ -34,7 +34,7 @@ class HiveTaskDataSource implements DataSource<Task> {
 
   @override
   Future<Task> findById(id) async {
-    return box.values.firstWhere((element) => element.name == id);
+    return box.values.firstWhere((element) => element.id == id);
   }
 
   @override

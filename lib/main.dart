@@ -12,7 +12,7 @@ const taskBoxName = 'tasks';
 
 void main() async {
 
-  final Repository<Task> repository = Repository(HiveTaskDataSource(Hive.box(taskBoxName)));
+  //final Repository<Task> repository = Repository(HiveTaskDataSource(Hive.box(taskBoxName)));
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskAdapter());
