@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_task/common/theme.dart';
-import 'package:todo_task/data.dart';
+import 'package:todo_task/data/data.dart';
 import 'package:todo_task/home/edit_task_screen.dart';
 import 'package:todo_task/home/widgets/my_check_box.dart';
 

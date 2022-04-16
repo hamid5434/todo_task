@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_task/data.dart';
+import 'package:todo_task/data/repo/repository.dart';
+import 'package:todo_task/data/source/hive_task_source.dart';
 import 'package:todo_task/home/home.dart';
 
 import 'common/theme.dart';
+import 'data/data.dart';
 
 const taskBoxName = 'tasks';
 
 void main() async {
+
+  final Repository<Task> repository = Repository(HiveTaskDataSource(Hive.box(taskBoxName)));
+
   await Hive.initFlutter();
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(PriorityAdapter());

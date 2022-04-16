@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_task/common/theme.dart';
-import 'package:todo_task/data.dart';
+import 'package:todo_task/data/data.dart';
 import 'package:todo_task/home/widgets/priority_checkbox.dart';
 import 'package:todo_task/main.dart';
 

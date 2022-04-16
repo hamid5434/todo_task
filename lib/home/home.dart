@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:todo_task/data.dart';
+import 'package:todo_task/data/data.dart';
 import 'package:todo_task/home/edit_task_screen.dart';
 import 'package:todo_task/home/widgets/empty_state.dart';
 import 'package:todo_task/home/widgets/task_item.dart';
