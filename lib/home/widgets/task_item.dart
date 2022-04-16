@@ -41,7 +41,6 @@ class _TaskItemState extends State<TaskItem> {
         );
       },
       onLongPress: () {
-        //widget.taskEntity.delete();
         final repository =
             Provider.of<Repository<Task>>(context, listen: false);
         repository.delete(widget.taskEntity);
