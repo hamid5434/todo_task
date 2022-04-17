@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_task/common/theme.dart';
 import 'package:todo_task/data/data.dart';
 import 'package:todo_task/data/repo/repository.dart';
+import 'package:todo_task/home/bloc/task_list_bloc.dart';
 import 'package:todo_task/home/widgets/task_item.dart';
 
 class TaskList extends StatelessWidget {
@@ -48,9 +49,11 @@ class TaskList extends StatelessWidget {
                   elevation: 0,
                   onPressed: () {
                     //box.clear();
-                    final taskRepository =
-                        Provider.of<Repository<Task>>(context, listen: false);
-                    taskRepository.deleteAll();
+                    // final taskRepository =
+                    //     Provider.of<Repository<Task>>(context, listen: false);
+                    // taskRepository.deleteAll();
+
+                    context.read<TaskListBloc>().add(TaskListDeleteAll());
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

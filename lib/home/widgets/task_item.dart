@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_task/common/theme.dart';
 import 'package:todo_task/data/data.dart';
 import 'package:todo_task/data/repo/repository.dart';
+import 'package:todo_task/home/bloc/task_list_bloc.dart';
 import 'package:todo_task/home/edit_task_screen.dart';
 import 'package:todo_task/home/widgets/my_check_box.dart';
 
@@ -41,9 +42,11 @@ class _TaskItemState extends State<TaskItem> {
         );
       },
       onLongPress: () {
-        final repository =
-            Provider.of<Repository<Task>>(context, listen: false);
-        repository.delete(widget.taskEntity);
+        // final repository =
+        //     Provider.of<Repository<Task>>(context, listen: false);
+        // repository.delete(widget.taskEntity);
+
+        context.read<TaskListBloc>().add(TaskListDelete(widget.taskEntity));
       },
       child: Container(
         height: TaskItem.height,
